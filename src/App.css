@@ -1,42 +1,88 @@
+html {
+  /* This creates a global offset for all anchor links */
+  scroll-padding-top: 10px;
+  /* Header height (100px) + 10px breathing room */
+  scroll-behavior: smooth;
+}
+
 #root {
-  max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  --hive-yellow: #fdc333;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+p {
+  font-size: 20px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#container {
+  max-width: 1600px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  /* Essential so the nav-bar stays inside this box */
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  /* Safety net for mobile */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+#contents {
+  width: 100%;
+  box-sizing: border-box;
+
+  /* Adjust padding so text doesn't overlap the absolute nav-bar */
+  padding: 20px 20px 20px 20px;
+  padding-right: 170px;
+
+  /* CRITICAL: This forces long words/strings to break and wrap */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
-.card {
-  padding: 2em;
+#contents-nav-bar-header {
+  padding: 5px 20px 5px 5px;
+  color: var(--hive-yellow);
 }
 
-.read-the-docs {
-  color: #888;
+#contents img {
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+}
+
+#contents-nav-bar {
+  position: fixed;
+  text-align: left;
+  width: 150px;
+  right: 0px;
+  top: 45px;
+}
+
+.nav-link-container {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 5px 20px 5px 5px;
+}
+
+.nav-link-container:hover {
+  background-color: var(--hive-yellow);
+}
+
+.nav-link-container.indent {
+  padding: 5px 5px 5px 20px;
+}
+
+.nav-link div {
+  font-weight: 500;
+  color: var(--hive-yellow);
+}
+
+.nav-link.active div {
+  border-left: solid 5px var(--hive-yellow);
+  transition: all 0.1s ease;
+}
+
+.nav-link:hover div {
+  color: rgba(0, 0, 0);
 }
