@@ -1,7 +1,7 @@
 import './App.css'
 import { ContentsNavBar } from './contents-nav-bar'
 import type { contentsNavBarLink } from './contents-nav-bar'
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 // PPP2 docs
 import ppp2_1 from './assets/ppp2-doc1.png'
 import ppp2_2 from './assets/ppp2-doc2.png'
@@ -10,71 +10,134 @@ import ppp2_4 from './assets/ppp2-doc4.png'
 import ppp2_5 from './assets/ppp2-doc5.png'
 import ppp2_6 from './assets/ppp2-doc6.png'
 
+import rate_calc_1 from './assets/rate-calc-doc1.png'
+
 function App() {
   let link1: contentsNavBarLink = { title: 'Overview', target: '#overview', children: [] }
-  let link2: contentsNavBarLink = { title: 'Tools', target: '#tools', children: [{ title: 'PPP2', target: '#tools-ppp2', children: [] }, { title: 'Rate Calculator', target: '#tools-rate-calculator', children: [] }] }
+  let link2: contentsNavBarLink = { title: 'Tools', target: '#tools', children: [{ title: 'Combined JD Generator', target: '#tools-jd-generator', children: [] }, { title: 'Job Uploader', target: '#tools-job-uploader', children: [] }, { title: 'Rate Calculator', target: '#tools-rate-calculator', children: [] }] }
   let links = [link1, link2];
+  let section = '';
+  let tempSection = window.location.href.split('?');
+  if (tempSection.length > 1) {
+    tempSection = tempSection[1].split('=');
+    if (tempSection.length > 1) {
+      section = (tempSection[1].toLowerCase());
+    }
+  }
+  //Sections
+  const OverviewRef = useRef(null);
+  const ToolsRef = useRef(null);
+  const JDGenRef = useRef(null);
+  const RateCalcRef = useRef(null);
+  const JobUploader = useRef(null);
 
-  const getFlatIds = (links: contentsNavBarLink[]): string[] => {
-    return links.reduce((acc: string[], link) => {
-      // Remove the '#' from the target for getElementById
-      const id = link.target.startsWith('#') ? link.target.slice(1) : link.target;
-      acc.push(id);
-      if (link.children.length > 0) {
-        acc.push(...getFlatIds(link.children));
-      }
-      return acc;
-    }, []);
-  };
-
-  const [activeId, setActiveId] = useState<string>('');
+  const goToOverview = () => window.scrollTo({
+    top: OverviewRef.current?.offsetTop,
+    behavior: "smooth"
+  })
+  const goToTools = () => window.scrollTo({
+    top: ToolsRef.current?.offsetTop,
+    behavior: "smooth"
+  })
+  const goToJDGen = () => window.scrollTo({
+    top: JDGenRef.current?.offsetTop,
+    behavior: "smooth"
+  })
+  const goToRateCalc = () => window.scrollTo({
+    top: RateCalcRef.current?.offsetTop,
+    behavior: "smooth"
+  })
+  const goToJobUploader = () => window.scrollTo({
+    top: JobUploader.current?.offsetTop,
+    behavior: "smooth"
+  })
 
   useEffect(() => {
-    const ids = getFlatIds(links);
+    if (section === 'overview' && ToolsRef.current) {
+      const timer = setTimeout(() => {
+        goToOverview();
+      }, 100);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        console.log(entries);
-        // Find the entry that is currently intersecting the most
-        const visibleEntry = entries.find(entry => entry.isIntersecting);
+      return () => clearTimeout(timer);
+    }
+    else if (section === 'tools' && ToolsRef.current) {
+      const timer = setTimeout(() => {
+        goToTools();
+      }, 100);
 
-        if (visibleEntry) {
-          console.log(visibleEntry.target.id);
-          setActiveId(`#${visibleEntry.target.id}`);
-        }
-      },
-      {
-        root: document.querySelector("contents"),
-        rootMargin: "-10% 0% -90% 0%",
-        threshold: 0,
-      }
-    );
+      return () => clearTimeout(timer);
+    }
+    else if (section === 'jd-generator' && ToolsRef.current) {
+      const timer = setTimeout(() => {
+        goToJDGen();
+      }, 100);
 
-    ids.forEach(id => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
+      return () => clearTimeout(timer);
+    }
+    else if (section === 'rate-calc' && ToolsRef.current) {
+      const timer = setTimeout(() => {
+        goToRateCalc();
+      }, 100);
 
-    return () => observer.disconnect();
-  }, []);
+      return () => clearTimeout(timer);
+    }
+  }, [section]);
 
+  // const getFlatIds = (links: contentsNavBarLink[]): string[] => {
+  //   return links.reduce((acc: string[], link) => {
+  //     // Remove the '#' from the target for getElementById
+  //     const id = link.target.startsWith('#') ? link.target.slice(1) : link.target;
+  //     acc.push(id);
+  //     if (link.children.length > 0) {
+  //       acc.push(...getFlatIds(link.children));
+  //     }
+  //     return acc;
+  //   }, []);
+  // };
+
+  // const [activeId, setActiveId] = useState<string>('');
+
+  // useEffect(() => {
+  //   const ids = getFlatIds(links);
+
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       console.log(entries);
+  //       // Find the entry that is currently intersecting the most
+  //       const visibleEntry = entries.find(entry => entry.isIntersecting);
+
+  //       if (visibleEntry) {
+  //         console.log(visibleEntry.target.id);
+  //         setActiveId(`#${visibleEntry.target.id}`);
+  //       }
+  //     },
+  //     {
+  //       root: document.querySelector("contents"),
+  //       rootMargin: "-10% 0% -90% 0%",
+  //       threshold: 0,
+  //     }
+  //   );
+
+  //   ids.forEach(id => {
+  //     const element = document.getElementById(id);
+  //     if (element) observer.observe(element);
+  //   });
+
+  //   return () => observer.disconnect();
+  // }, []);
+  //activeHash={activeId}
   return (
     <div id='container'>
-      <ContentsNavBar links={links} activeHash={activeId} />
+      <ContentsNavBar links={links} />
       <div id='contents'>
-        <h1 id='overview'>Overview</h1>
+        <h1 ref={OverviewRef} id='overview'>Overview</h1>
         <p>The intranet is the hub for all internal Recruitment Hive tools.</p>
-        <h1 id='tools'>Tools</h1>
-        <p>
-          Who should we please?
-          Who's to believe?
-          Who should we change for?
-          Who could we be?</p>
-        <h2 id='tools-ppp2'>PPP2 JD Generator</h2>
-        <p>This tool is for generating Job Descriptions for People Panel Phase 2 roles.
+
+        <h2 ref={JDGenRef} id='tools-jd-generator'>Combined JD Generator</h2>
+        <p>This tool is for generating Job Descriptions for People Panel Phase 2, Group 10 and Voak roles.
           The tool is located here,
         </p>
-        <img src={ppp2_1} />
+        <img src={ppp2_1} width={100} height={100} />
         <p>Or <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/ppp2-job-generator'>here</a>.</p>
         <h3>Usage</h3>
         <p>
@@ -89,14 +152,49 @@ function App() {
         <img src={ppp2_5} />
         <p>You can remove uploaded files by clicking on the red 'X'.</p>
         <img src={ppp2_6} />
+        <h2 ref={JobUploader} id='tools-job-uploader'>Job Uploader Tool</h2>
+        <p>This extracts information from Recruitment Hive Job Descriptions and uploads the information to Sharepoint and Recruit Wizard.
+        </p>
+        <h2 ref={RateCalcRef} id='tools-rate-calculator'>Rate Calculator</h2>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p><p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
 
-        <h2 id='tools-rate-calculator'>Rate Calculator</h2>
-        Change for its own sake
-        Uniformity gave me a belly ache
-        I want a mutiny
-        My mind is finally awake
-        Who could we be given equal opportunity?
-        What could we see given equal chance to actually
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+        <p>This tool is for calculating Rate Breakdowns for roles.
+          Navigate to the user interface,
+        </p>
+
+        <img src={rate_calc_1} />
+        <p>Or <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/rate-calculator'>here</a>.</p>
       </div>
     </div>
   )
