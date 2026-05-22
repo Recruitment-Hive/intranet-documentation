@@ -15,6 +15,7 @@ import jobtool1 from './assets/jobtool-doc1.png'
 import jobtool2 from './assets/jobtool-doc2.png'
 import jobtool3 from './assets/jobtool-doc3.png'
 import jobtool4 from './assets/jobtool-doc4.png'
+import jobtool5 from './assets/jobtool-doc5.png'
 
 import rate_calc_1 from './assets/rate-calc-doc1.png'
 
@@ -22,14 +23,7 @@ function App() {
   let link1: contentsNavBarLink = { title: 'Overview', target: '#overview', children: [] }
   let link2: contentsNavBarLink = { title: 'Tools', target: '#tools', children: [{ title: 'Combined JD Generator', target: '#tools-jd-generator', children: [] }, { title: 'Job Uploader', target: '#tools-job-uploader', children: [] }, { title: 'Rate Calculator', target: '#tools-rate-calculator', children: [] }] }
   let links = [link1, link2];
-  let section = '';
-  let tempSection = window.location.href.split('?');
-  if (tempSection.length > 1) {
-    tempSection = tempSection[1].split('=');
-    if (tempSection.length > 1) {
-      section = (tempSection[1].toLowerCase());
-    }
-  }
+  const section = window.location.hash.slice(1).toLowerCase();
   //Sections
   const OverviewRef = useRef<HTMLHeadingElement>(null);
   const ToolsRef = useRef<HTMLHeadingElement>(null);
@@ -59,39 +53,16 @@ function App() {
   })
 
   useEffect(() => {
-    if (section === 'overview' && ToolsRef.current) {
-      const timer = setTimeout(() => {
-        goToOverview();
-      }, 100);
-
-      return () => clearTimeout(timer);
-    }
-    else if (section === 'tools' && ToolsRef.current) {
-      const timer = setTimeout(() => {
-        goToTools();
-      }, 100);
-
-      return () => clearTimeout(timer);
-    }
-    else if (section === 'jd-generator' && ToolsRef.current) {
-      const timer = setTimeout(() => {
-        goToJDGen();
-      }, 100);
-
-      return () => clearTimeout(timer);
-    }
-    else if (section === 'rate-calc' && ToolsRef.current) {
-      const timer = setTimeout(() => {
-        goToRateCalc();
-      }, 100);
-
-      return () => clearTimeout(timer);
-    }
-    else if (section === 'job-uploader' && ToolsRef.current) {
-      const timer = setTimeout(() => {
-        goToJobUploader();
-      }, 100);
-
+    const scrollFns: Record<string, () => void> = {
+      'overview': goToOverview,
+      'tools': goToTools,
+      'tools-jd-generator': goToJDGen,
+      'tools-rate-calculator': goToRateCalc,
+      'tools-job-uploader': goToJobUploader,
+    };
+    const fn = scrollFns[section];
+    if (fn) {
+      const timer = setTimeout(fn, 100);
       return () => clearTimeout(timer);
     }
   }, [section]);
@@ -149,75 +120,43 @@ function App() {
 
         <h2 ref={JDGenRef} id='tools-jd-generator'>Combined JD Generator</h2>
         <p>This tool is for generating Job Descriptions for People Panel Phase 2, Group 10 and Voak roles.
-          The tool is located here,
+          The tool is located <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/ppp2-job-generator'>here</a>,
         </p>
         <img src={ppp2_1} />
-        {/* height={400} */}
-        <p>Or <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/ppp2-job-generator'>here</a>.</p>
         <h3>Usage</h3>
         <p>
-          Drag the documents associated with the role into the box. Multiple documents can be uploaded. The document to upload depend on the job source. For PPP2 roles, upload the associated .docx and .pdf files. For Group 10 and Voak roles, drag in the email the role came in.
+          <b>1.</b> Drag the documents associated with the role into the box. Multiple documents can be uploaded. The document to upload depends on the job source. For PPP2 roles, upload the associated .docx and .pdf files. For Group 10 and Voak roles, upload the email the role came in.
         </p>
         <img src={ppp2_2} />
-        <p>Any uploaded documents will be listed below the box. </p>
+        <p><b>2.</b> Any uploaded documents will be listed below the box. </p>
         <img src={ppp2_3} />
-        <p>When the relevant documents are uploaded, enter the RFQ ID. The recruiter field should automatically set to your name, however if not you will have to select your name from the dropdown menu.</p>
+        <p><b>3.</b> When the relevant documents are uploaded, enter the RFQ ID. The Recruiter field should automatically set to your name, however if not you will have to select your name from the dropdown menu.</p>
         <img src={ppp2_4} />
-        <p>Once at least one document has been uploaded, the RFQ ID is set and a recruiter is selected, the Generate JD button will appear. Click this to generate the JD.</p>
+        <p><b>4.</b> Once at least one document has been uploaded, the RFQ ID is set and a recruiter is selected, the Generate JD button will appear. Click this to generate the JD.</p>
         <img src={ppp2_5} />
         <p>You can remove uploaded files by clicking on the red 'X'.</p>
         <img src={ppp2_6} />
         <h2 ref={JobUploader} id='tools-job-uploader'>Job Tool</h2>
-        <p>This extracts information from Recruitment Hive Job Descriptions and uploads the information to Sharepoint and Recruit Wizard.
+        <p>This tool extracts information from Recruitment Hive Job Descriptions and uploads the information to Sharepoint and Recruit Wizard.
         </p>
-        <p>You can remove uploaded files by clicking on the red 'X'.</p>
+        <p>You can find the Job Tool <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/job-tool'>here</a>.</p>
         <img src={jobtool1} />
-        <p>You can remove uploaded files by clicking on the red 'X'.</p>
+        <h3>Usage</h3>
+        <p><b>1.</b> Drag a completed Job Description into the tool.</p>
         <img src={jobtool2} />
-        <p>You can remove uploaded files by clicking on the red 'X'.</p>
+        <p><b>2.</b> The tool will extract information from the Job Description and display it. From here you can upload the Job Description to Sharepoint and Recruit Wizard.</p>
+        <img src={jobtool5} />
+        <p><b>3a.</b> Clicking "Create File Structure" will bring you to this page. From here you can edit the job information, as well as add additional files and the email the role came in. The new folders that will be created are displayed at the bottom. Clicking create file structure will create the new folders and insert the Job Description along with the additional files into the folder. </p>
         <img src={jobtool3} />
-        <p>You can remove uploaded files by clicking on the red 'X'.</p>
+        <p>If the upload is successful you can view the file in Sharepoint or click back to return to the screen at step 2.</p>
         <img src={jobtool4} />
-        <h2 ref={RateCalcRef} id='tools-rate-calculator'>Rate Calculator</h2>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p><p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
+        <p><b>3b.</b>"Upload to Recruit Wizard" is currentley in development. </p>
 
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
-        <p>This tool is for calculating Rate Breakdowns for roles.
-          Navigate to the user interface,
-        </p>
+        <h2 ref={RateCalcRef} id='tools-rate-calculator'>Rate Calculator</h2>
+
+        <p>You can find the Job Tool <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/rate-calculator'>here</a>.</p>
 
         <img src={rate_calc_1} />
-        <p>Or <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/rate-calculator'>here</a>.</p>
       </div>
     </div>
   )
