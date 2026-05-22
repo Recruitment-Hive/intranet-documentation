@@ -1,14 +1,20 @@
 import './App.css'
 import { ContentsNavBar } from './contents-nav-bar'
 import type { contentsNavBarLink } from './contents-nav-bar'
-import { useRef, useState, useEffect } from 'react';
-// PPP2 docs
+import { useRef, useEffect } from 'react';
+// JD Gen Docs
 import ppp2_1 from './assets/ppp2-doc1.png'
 import ppp2_2 from './assets/ppp2-doc2.png'
 import ppp2_3 from './assets/ppp2-doc3.png'
 import ppp2_4 from './assets/ppp2-doc4.png'
 import ppp2_5 from './assets/ppp2-doc5.png'
 import ppp2_6 from './assets/ppp2-doc6.png'
+
+// Job Uploader Docs
+import jobtool1 from './assets/jobtool-doc1.png'
+import jobtool2 from './assets/jobtool-doc2.png'
+import jobtool3 from './assets/jobtool-doc3.png'
+import jobtool4 from './assets/jobtool-doc4.png'
 
 import rate_calc_1 from './assets/rate-calc-doc1.png'
 
@@ -25,11 +31,11 @@ function App() {
     }
   }
   //Sections
-  const OverviewRef = useRef(null);
-  const ToolsRef = useRef(null);
-  const JDGenRef = useRef(null);
-  const RateCalcRef = useRef(null);
-  const JobUploader = useRef(null);
+  const OverviewRef = useRef<HTMLHeadingElement>(null);
+  const ToolsRef = useRef<HTMLHeadingElement>(null);
+  const JDGenRef = useRef<HTMLHeadingElement>(null);
+  const RateCalcRef = useRef<HTMLHeadingElement>(null);
+  const JobUploader = useRef<HTMLHeadingElement>(null);
 
   const goToOverview = () => window.scrollTo({
     top: OverviewRef.current?.offsetTop,
@@ -77,6 +83,13 @@ function App() {
     else if (section === 'rate-calc' && ToolsRef.current) {
       const timer = setTimeout(() => {
         goToRateCalc();
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+    else if (section === 'job-uploader' && ToolsRef.current) {
+      const timer = setTimeout(() => {
+        goToJobUploader();
       }, 100);
 
       return () => clearTimeout(timer);
@@ -132,29 +145,39 @@ function App() {
       <div id='contents'>
         <h1 ref={OverviewRef} id='overview'>Overview</h1>
         <p>The intranet is the hub for all internal Recruitment Hive tools.</p>
+        <h1 ref={ToolsRef} id='tools'>Tools</h1>
 
         <h2 ref={JDGenRef} id='tools-jd-generator'>Combined JD Generator</h2>
         <p>This tool is for generating Job Descriptions for People Panel Phase 2, Group 10 and Voak roles.
           The tool is located here,
         </p>
-        <img src={ppp2_1} width={100} height={100} />
+        <img src={ppp2_1} />
+        {/* height={400} */}
         <p>Or <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/ppp2-job-generator'>here</a>.</p>
         <h3>Usage</h3>
         <p>
-          Drag the documents associated with the role into the box. Multiple documents can be uploaded. Only .docx and .pdf are accepted.
+          Drag the documents associated with the role into the box. Multiple documents can be uploaded. The document to upload depend on the job source. For PPP2 roles, upload the associated .docx and .pdf files. For Group 10 and Voak roles, drag in the email the role came in.
         </p>
         <img src={ppp2_2} />
         <p>Any uploaded documents will be listed below the box. </p>
         <img src={ppp2_3} />
-        <p>When the relevant documents are uploaded, enter the RFQ ID. It should automatically set your name, however if not you will have to select your name from the dropdown menu.</p>
+        <p>When the relevant documents are uploaded, enter the RFQ ID. The recruiter field should automatically set to your name, however if not you will have to select your name from the dropdown menu.</p>
         <img src={ppp2_4} />
-        <p>Once at least one document has been uploaded, the RFQ ID is set and a recruiter is selected, the Generate JD button will appear. Click this to generate the JD. It will take around ~10 seconds.</p>
+        <p>Once at least one document has been uploaded, the RFQ ID is set and a recruiter is selected, the Generate JD button will appear. Click this to generate the JD.</p>
         <img src={ppp2_5} />
         <p>You can remove uploaded files by clicking on the red 'X'.</p>
         <img src={ppp2_6} />
-        <h2 ref={JobUploader} id='tools-job-uploader'>Job Uploader Tool</h2>
+        <h2 ref={JobUploader} id='tools-job-uploader'>Job Tool</h2>
         <p>This extracts information from Recruitment Hive Job Descriptions and uploads the information to Sharepoint and Recruit Wizard.
         </p>
+        <p>You can remove uploaded files by clicking on the red 'X'.</p>
+        <img src={jobtool1} />
+        <p>You can remove uploaded files by clicking on the red 'X'.</p>
+        <img src={jobtool2} />
+        <p>You can remove uploaded files by clicking on the red 'X'.</p>
+        <img src={jobtool3} />
+        <p>You can remove uploaded files by clicking on the red 'X'.</p>
+        <img src={jobtool4} />
         <h2 ref={RateCalcRef} id='tools-rate-calculator'>Rate Calculator</h2>
         <p>This tool is for calculating Rate Breakdowns for roles.
           Navigate to the user interface,
