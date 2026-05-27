@@ -126,9 +126,12 @@ function App() {
       'tools-job-tool-create-file-structure': goToCreateFileStructure,
     };
     const fn = scrollFns[section];
-    if (fn) {
-      const timer = setTimeout(fn, 100);
-      return () => clearTimeout(timer);
+    if (!fn) return;
+    if (document.readyState === 'complete') {
+      fn();
+    } else {
+      window.addEventListener('load', fn, { once: true });
+      return () => window.removeEventListener('load', fn);
     }
   }, [section]);
 
