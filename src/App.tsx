@@ -34,10 +34,14 @@ import rate_calc_14 from './assets/rate-calc-doc14.png'
 import rate_calc_15 from './assets/rate-calc-doc15.png'
 import rate_calc_16 from './assets/rate-calc-doc16.png'
 
+import recruitwizard1 from './assets/recruitwizard-doc1.png'
+import recruitwizard2 from './assets/recruitwizard-doc2.png'
+import recruitwizard3 from './assets/recruitwizard-doc3.png'
+
 
 function App() {
   let link1: contentsNavBarLink = { title: 'Overview', target: '#overview', children: [] }
-  let link2: contentsNavBarLink = { title: 'Tools', target: '#tools', children: [{ title: 'Combined JD Generator', target: '#tools-jd-generator', children: [] }, { title: 'Job Tool', target: '#tools-job-uploader', children: [{ title: 'Create File Structure', target: '#tools-job-tool-create-file-structure', children: [] }] }, { title: 'Rate Calculator', target: '#tools-rate-calculator', children: [{ title: 'DMP2 Breakdown', target: '#tools-rate-calculator-dmp2', children: [] }, { title: 'PPP2 Breakdown', target: '#tools-rate-calculator-ppp2', children: [] }] }] }
+  let link2: contentsNavBarLink = { title: 'Tools', target: '#tools', children: [{ title: 'Combined JD Generator', target: '#tools-jd-generator', children: [] }, { title: 'Job Tool', target: '#tools-job-uploader', children: [{ title: 'Create File Structure', target: '#tools-job-tool-create-file-structure', children: [] }, { title: 'Upload to Recruit Wizard', target: '#tools-job-tool-upload-recruit-wizard', children: [] }] }, { title: 'Rate Calculator', target: '#tools-rate-calculator', children: [{ title: 'DMP2 Breakdown', target: '#tools-rate-calculator-dmp2', children: [] }, { title: 'PPP2 Breakdown', target: '#tools-rate-calculator-ppp2', children: [] }] }] }
   let links = [link1, link2];
   const section = window.location.hash.slice(1).toLowerCase();
   const [activeId, setActiveId] = useState<string>('');
@@ -59,6 +63,7 @@ function App() {
   const PPP2BreakdownRef = useRef<HTMLHeadingElement>(null);
   const JobUploader = useRef<HTMLHeadingElement>(null);
   const CreateFileStructureRef = useRef<HTMLHeadingElement>(null);
+  const UploadRecruitWizardRef = useRef<HTMLHeadingElement>(null);
 
   const goToOverview = () => window.scrollTo({
     top: OverviewRef.current?.offsetTop,
@@ -92,12 +97,16 @@ function App() {
     top: CreateFileStructureRef.current?.offsetTop,
     behavior: "smooth"
   })
+  const goToRecruitWizardUploader = () => window.scrollTo({
+    top: UploadRecruitWizardRef.current?.offsetTop,
+    behavior: "smooth"
+  })
 
   useEffect(() => {
     const sectionIds = [
       'overview', 'tools', 'tools-jd-generator', 'tools-job-uploader',
       'tools-job-tool-create-file-structure', 'tools-rate-calculator',
-      'tools-rate-calculator-dmp2', 'tools-rate-calculator-ppp2',
+      'tools-rate-calculator-dmp2', 'tools-rate-calculator-ppp2', 'tools-job-tool-upload-recruit-wizard'
     ];
     const handleScroll = () => {
       if (isNavigating.current) return;
@@ -124,6 +133,7 @@ function App() {
       'tools-rate-calculator-ppp2': goToPPP2Breakdown,
       'tools-job-uploader': goToJobUploader,
       'tools-job-tool-create-file-structure': goToCreateFileStructure,
+      'tools-job-tool-upload-recruit-wizard': goToRecruitWizardUploader,
     };
     const fn = scrollFns[section];
     if (!fn) return;
@@ -220,7 +230,16 @@ function App() {
         <p>Note: Changing the fields will also change the file path, make sure to check these before you create.</p>
         <p>If the upload is successful you can view the file in Sharepoint or click back to return to the screen at step 2.</p>
         <img src={jobtool4} />
-        <p><b>3b.</b> "Upload to Recruit Wizard" is currently in development.</p>
+        <h3 ref={UploadRecruitWizardRef} id='tools-job-tool-upload-recruit-wizard'>Upload to Recruit Wizard</h3>
+        <p><b>3b.</b> Clicking "Upload to Recruit Wizard" will bring you to the client selection page. Search for the client by name, the tool will attempt to auto-match the client from the Job Description. Once you've selected a client, search for the relevant contact. If the contact doesn't appear, click "Get all contacts" to load the full contact list for that client.</p>
+        <img src={recruitwizard1} />
+        <p>Note: The tool will auto-select a client and contact where it can find a match. Always verify these are correct before proceeding.</p>
+        <p><b>4.</b> Click "Next" to proceed to the job details page. The tool will pre-fill the job information extracted from the Job Description. Review each field carefully and make any necessary edits before uploading.</p>
+        <img src={recruitwizard2} />
+        <p>You can also attach the original Outlook email (.msg or .eml) that the role came in on, this will be uploaded to the job in Recruit Wizard alongside the Job Description.</p>
+        <p><b>5.</b> Click "Upload to Recruit Wizard" to create the job. Once successful, you will be taken to the confirmation screen where the Job Description and email (if attached) will be automatically uploaded to the job.</p>
+        <img src={recruitwizard3} />
+        <p>From here you can click "Open in Recruit Wizard" to view the newly created job, or click "Back to Job Tool" to return to the main screen.</p>
 
         <h2 ref={RateCalcRef} id='tools-rate-calculator'>Rate Calculator</h2>
 
