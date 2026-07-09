@@ -198,7 +198,7 @@ function App() {
 
         <h2 ref={JDGenRef} id='tools-jd-generator'>Combined JD Generator</h2>
         <p>This tool is for generating Job Descriptions for People Panel Phase 2, Group 10 and Voak roles.
-          The tool is located <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/ppp2-job-generator'>here</a>,
+          The tool is located <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/ppp2-job-generator' target="_top">here</a>,
         </p>
         <img src={ppp2_1} />
         <h3>Usage</h3>
@@ -217,7 +217,7 @@ function App() {
         <h2 ref={JobUploader} id='tools-job-uploader'>Job Tool</h2>
         <p>This tool extracts information from Recruitment Hive Job Descriptions and uploads the information to Sharepoint and Recruit Wizard.
         </p>
-        <p>You can find the Job Tool <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/job-tool'>here</a>.</p>
+        <p>You can find the Job Tool <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/job-tool' target="_top">here</a>.</p>
         <img src={jobtool1} />
         <h3>Usage</h3>
         <p><b>1.</b> Drag a completed Job Description into the tool.</p>
@@ -243,7 +243,7 @@ function App() {
 
         <h2 ref={RateCalcRef} id='tools-rate-calculator'>Rate Calculator</h2>
 
-        <p>You can find the Rate Calculator Tool <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/rate-calculator'>here</a>.</p>
+        <p>You can find the Rate Calculator Tool <a href='https://recruitmenthivecloud.sharepoint.com/sites/RecruitmentHiveIntranet/SiteAssets/Intranet%20Navigation/dist/index.aspx#/tools/rate-calculator' target="_top">here</a>.</p>
         <img src={rate_calc_1} className="rate-calc-img" />
         <h3>Usage</h3>
         <p><b>1. </b>Select the type of rate breakdown you wish to create, either DMP2 or PPP2.</p>
