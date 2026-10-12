@@ -7,7 +7,7 @@ html {
 
 #root {
   margin: 0 auto;
-  --hive-yellow: #fdc333;
+  background-color: var(--background);
 }
 
 p {
